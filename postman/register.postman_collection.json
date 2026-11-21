@@ -1,0 +1,81 @@
+{
+  "info": {
+    "_postman_id": "d7f1ea4e-8e66-4e92-b8a2-b6a817f1a5c2",
+    "name": "Login App API - Register",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register - Success",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Kevin Tjandra\",\n  \"email\": \"kevin@example.com\",\n  \"no_hp\": \"081234567890\",\n  \"foto\": null,\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/register",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "register"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "const json = pm.response.json();",
+              "pm.test(\"Registration is successful\", function () {",
+              "    pm.expect(json.success).to.eql(true);",
+              "    pm.expect(json.token).to.be.a(\"string\").and.not.empty;",
+              "    pm.expect(json.user.email).to.eql(\"kevin@example.com\");",
+              "});",
+              "",
+              "pm.collectionVariables.set(\"token\", json.token);"
+            ]
+          }
+        }
+      ],
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
