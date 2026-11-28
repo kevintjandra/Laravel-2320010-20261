@@ -53,6 +53,27 @@ In order to ensure that the Laravel community is welcoming to all, please review
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
+## Deploying the Laravel API to EthioDeploy
+
+Create a Laravel project in EthioDeploy using this repository, then add a managed MySQL addon. Configure these project environment variables:
+
+```text
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://<your-project>.ethiodeploy.app
+DB_CONNECTION=mysql
+```
+
+EthioDeploy provides the database URL as `DATABASE_URL`; the MySQL connection in `config/database.php` already uses it as a fallback. Let EthioDeploy generate and persist `APP_KEY` if one is not already configured.
+
+Set the project's Start command to:
+
+```sh
+php artisan migrate --force && ethiodeploy-start
+```
+
+Uploaded profile photos currently use local storage, which is not persistent across deploys. Configure persistent object storage before relying on uploaded photos in production.
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
